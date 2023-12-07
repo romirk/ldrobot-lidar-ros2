@@ -17,39 +17,38 @@
 #define VISIBILITY_CONTROL_HPP_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
 //     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-  #ifdef __GNUC__
+#ifdef __GNUC__
     #define LDLIDAR_COMPONENTS_EXPORT __attribute__ ((dllexport))
     #define LDLIDAR_COMPONENTS_IMPORT __attribute__ ((dllimport))
-  #else
+#else
     #define LDLIDAR_COMPONENTS_EXPORT __declspec(dllexport)
     #define LDLIDAR_COMPONENTS_IMPORT __declspec(dllimport)
-  #endif
-  #ifdef LDLIDAR_COMPONENTS_BUILDING_DLL
+#endif
+#ifdef LDLIDAR_COMPONENTS_BUILDING_DLL
     #define LDLIDAR_COMPONENTS_PUBLIC LDLIDAR_COMPONENTS_EXPORT
-  #else
+#else
     #define LDLIDAR_COMPONENTS_PUBLIC LDLIDAR_COMPONENTS_IMPORT
-  #endif
+#endif
   #define LDLIDAR_COMPONENTS_PUBLIC_TYPE LDLIDAR_COMPONENTS_PUBLIC
   #define LDLIDAR_COMPONENTS_LOCAL
 #else
-  #define LDLIDAR_COMPONENTS_EXPORT __attribute__ ((visibility("default")))
-  #define LDLIDAR_COMPONENTS_IMPORT
-  #if __GNUC__ >= 4
-    #define LDLIDAR_COMPONENTS_PUBLIC __attribute__ ((visibility("default")))
-    #define LDLIDAR_COMPONENTS_LOCAL  __attribute__ ((visibility("hidden")))
-  #else
+#define LDLIDAR_COMPONENTS_EXPORT __attribute__ ((visibility("default")))
+#define LDLIDAR_COMPONENTS_IMPORT
+#if __GNUC__ >= 4
+#define LDLIDAR_COMPONENTS_PUBLIC __attribute__ ((visibility("default")))
+#define LDLIDAR_COMPONENTS_LOCAL  __attribute__ ((visibility("hidden")))
+#else
     #define LDLIDAR_COMPONENTS_PUBLIC
     #define LDLIDAR_COMPONENTS_LOCAL
-  #endif
-  #define LDLIDAR_COMPONENTS_PUBLIC_TYPE
+#endif
+#define LDLIDAR_COMPONENTS_PUBLIC_TYPE
 #endif
 
 #ifdef __cplusplus

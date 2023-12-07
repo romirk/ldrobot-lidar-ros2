@@ -16,42 +16,44 @@
 #ifndef CMD_INTERFACE_LINUX_HPP_
 #define CMD_INTERFACE_LINUX_HPP_
 
-#include <inttypes.h>
-#include <string.h>
-
 #include <thread>
 #include <atomic>
-#include <mutex>
 #include <vector>
 #include <utility>
 #include <functional>
 #include <string>
-#include <condition_variable>
 
-class CmdInterfaceLinux
-{
+class CmdInterfaceLinux {
 public:
-  CmdInterfaceLinux();
-  ~CmdInterfaceLinux();
+    CmdInterfaceLinux();
 
-  bool Open(std::string & port_name);
-  bool Close();
-  bool ReadFromIO(uint8_t * rx_buf, uint32_t rx_buf_len, uint32_t * rx_len);
-  bool WriteToIo(const uint8_t * tx_buf, uint32_t tx_buf_len, uint32_t * tx_len);
-  bool GetCmdDevices(std::vector<std::pair<std::string, std::string>> & device_list);
-  void SetReadCallback(std::function<void(const char *, size_t length)> callback)
-  {
-    mReadCallback = callback;
-  }
-  bool IsOpened() {return mIsCmdOpened.load();}
+    ~CmdInterfaceLinux();
+
+    bool Open(std::string& port_name);
+
+    bool Close();
+
+    bool ReadFromIO(uint8_t* rx_buf, uint32_t rx_buf_len, uint32_t* rx_len);
+
+    bool WriteToIo(const uint8_t* tx_buf, uint32_t tx_buf_len, uint32_t* tx_len);
+
+    bool GetCmdDevices(std::vector<std::pair<std::string, std::string>>& device_list);
+
+    void SetReadCallback(std::function<void(const char*, size_t length)> callback) {
+        mReadCallback = callback;
+    }
+
+    [[nodiscard]] bool IsOpened() const { return mIsCmdOpened.load(); }
 
 private:
-  std::thread * mRxThread;
-  static void mRxThreadProc(void * param);
-  int64_t mRxCount;
-  int32_t mComHandle;
-  std::atomic<bool> mIsCmdOpened, mRxThreadExitFlag;
-  std::function<void(const char *, size_t length)> mReadCallback;
+    std::thread* mRxThread;
+
+    static void mRxThreadProc(void* param);
+
+    int64_t mRxCount;
+    int32_t mComHandle;
+    std::atomic<bool> mIsCmdOpened, mRxThreadExitFlag;
+    std::function<void(const char*, size_t length)> mReadCallback;
 };
 
 #endif  // CMD_INTERFACE_LINUX_HPP_

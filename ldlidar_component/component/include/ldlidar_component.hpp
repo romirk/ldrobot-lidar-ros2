@@ -80,14 +80,14 @@ namespace ldlidar {
 
         void getParam(
             std::string paramName, int defValue, int& outVal,
-            const nav2_util::LifecycleNode::integer_range& range,
+            const integer_range& range,
             const std::string& description = "",
             bool read_only = true,
             std::string log_info = std::string());
 
         void getParam(
             std::string paramName, float defValue, float& outVal,
-            const nav2_util::LifecycleNode::floating_point_range& range,
+            const floating_point_range& range,
             const std::string& description = "",
             bool read_only = true,
             std::string log_info = std::string());
