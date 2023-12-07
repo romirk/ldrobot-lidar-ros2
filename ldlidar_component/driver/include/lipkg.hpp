@@ -16,7 +16,7 @@
 #ifndef LIPKG_HPP_
 #define LIPKG_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <vector>
 #include <array>
@@ -106,7 +106,7 @@ namespace ldlidar {
             ROTATION rotVerse = ROTATION::COUNTERCLOCKWISE,
             std::string lidarFrame = "ldlidar_link");
 
-        double GetSpeed(); /*Lidar spin speed (Hz)*/
+        double GetSpeed() const; /*Lidar spin speed (Hz)*/
         [[nodiscard]] uint16_t GetTimestamp() const {
             return mTimestamp;
         } /*time stamp of the packet */

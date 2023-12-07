@@ -15,82 +15,73 @@
 
 #include "ldlidar_tools.hpp"
 
-namespace tools
-{
-std::string qos2str(rmw_qos_history_policy_t qos)
-{
-  switch (qos) {
-    case RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT:
-      return "RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT";
+namespace tools {
+    std::string qos2str(const rmw_qos_history_policy_t qos) {
+        switch (qos) {
+            case RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT:
+                return "RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT";
 
-    case RMW_QOS_POLICY_HISTORY_KEEP_LAST:
-      return "RMW_QOS_POLICY_HISTORY_KEEP_LAST";
+            case RMW_QOS_POLICY_HISTORY_KEEP_LAST:
+                return "RMW_QOS_POLICY_HISTORY_KEEP_LAST";
 
-    case RMW_QOS_POLICY_HISTORY_KEEP_ALL:
-      return "RMW_QOS_POLICY_HISTORY_KEEP_ALL";
-  }
+            case RMW_QOS_POLICY_HISTORY_KEEP_ALL:
+                return "RMW_QOS_POLICY_HISTORY_KEEP_ALL";
+            default: return "Unknown QoS value";
+        }
+    }
 
-  return "Unknown QoS value";
-}
+    std::string qos2str(const rmw_qos_reliability_policy_t qos) {
+        switch (qos) {
+            case RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT:
+                return "RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT";
 
-std::string qos2str(rmw_qos_reliability_policy_t qos)
-{
-  switch (qos) {
-    case RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT:
-      return "RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT";
+            case RMW_QOS_POLICY_RELIABILITY_RELIABLE:
+                return "RMW_QOS_POLICY_RELIABILITY_RELIABLE";
 
-    case RMW_QOS_POLICY_RELIABILITY_RELIABLE:
-      return "RMW_QOS_POLICY_RELIABILITY_RELIABLE";
+            case RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT:
+                return "RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT";
+            default: return "Unknown QoS value";
+        }
+    }
 
-    case RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT:
-      return "RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT";
-  }
+    std::string qos2str(const rmw_qos_durability_policy_t qos) {
+        switch (qos) {
+            case RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT:
+                return "RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT";
 
-  return "Unknown QoS value";
-}
+            case RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL:
+                return "RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL";
 
-std::string qos2str(rmw_qos_durability_policy_t qos)
-{
-  switch (qos) {
-    case RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT:
-      return "RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT";
+            case RMW_QOS_POLICY_DURABILITY_VOLATILE:
+                return "RMW_QOS_POLICY_DURABILITY_VOLATILE";
+            default: return "Unknown QoS value";
+        }
+    }
 
-    case RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL:
-      return "RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL";
+    std::string to_string(const ldlidar::UNITS val) {
+        switch (val) {
+            case ldlidar::UNITS::MILLIMETERS:
+                return "MILLIMETERS";
 
-    case RMW_QOS_POLICY_DURABILITY_VOLATILE:
-      return "RMW_QOS_POLICY_DURABILITY_VOLATILE";
-  }
+            case ldlidar::UNITS::CENTIMETERS:
+                return "CENTIMETERS";
 
-  return "Unknown QoS value";
-}
+            case ldlidar::UNITS::METERS:
+                return "METERS";
+        }
 
-std::string to_string(ldlidar::UNITS val)
-{
-  switch (val) {
-    case ldlidar::UNITS::MILLIMETERS:
-      return "MILLIMETERS";
+        return "Unknown UNITS value";
+    }
 
-    case ldlidar::UNITS::CENTIMETERS:
-      return "CENTIMETERS";
+    std::string to_string(const ldlidar::ROTATION val) {
+        switch (val) {
+            case ldlidar::ROTATION::CLOCKWISE:
+                return "CLOCKWISE";
 
-    case ldlidar::UNITS::METERS:
-      return "METERS";
-  }
+            case ldlidar::ROTATION::COUNTERCLOCKWISE:
+                return "COUNTERCLOCKWISE";
+        }
 
-  return "Unknown UNITS value";
-}
-
-std::string to_string(ldlidar::ROTATION val)
-{
-  switch (val) {
-    case ldlidar::ROTATION::CLOCKWISE:
-      return "CLOCKWISE";
-
-    case ldlidar::ROTATION::COUNTERCLOCKWISE:
-      return "COUNTERCLOCKWISE";
-  }
-
-  return "Unknown ROTATION value";
-}
-}  // namespace tools
+        return "Unknown ROTATION value";
+    }
+} // namespace tools

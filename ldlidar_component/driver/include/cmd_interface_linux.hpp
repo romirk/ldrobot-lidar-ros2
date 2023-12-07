@@ -29,7 +29,7 @@ public:
 
     ~CmdInterfaceLinux();
 
-    bool Open(std::string& port_name);
+    bool Open(const std::string& port_name);
 
     bool Close();
 
@@ -37,7 +37,7 @@ public:
 
     bool WriteToIo(const uint8_t* tx_buf, uint32_t tx_buf_len, uint32_t* tx_len);
 
-    bool GetCmdDevices(std::vector<std::pair<std::string, std::string>>& device_list);
+    static bool GetCmdDevices(std::vector<std::pair<std::string, std::string>>& device_list);
 
     void SetReadCallback(std::function<void(const char*, size_t length)> callback) {
         mReadCallback = callback;
