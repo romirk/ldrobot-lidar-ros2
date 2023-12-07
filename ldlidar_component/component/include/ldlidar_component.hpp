@@ -16,19 +16,13 @@
 #ifndef LDLIDAR_COMPONENT_HPP_
 #define LDLIDAR_COMPONENT_HPP_
 
-#include <rcutils/logging_macros.h>
-
 #include <string>
 #include <memory>
 
-#include <lifecycle_msgs/msg/transition.hpp>
-#include <rclcpp/publisher.hpp>
-#include <rclcpp/rclcpp.hpp>
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
 #include <rclcpp_lifecycle/lifecycle_publisher.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <diagnostic_updater/diagnostic_updater.hpp>
-#include <diagnostic_msgs/msg/diagnostic_status.hpp>
 
 #include <nav2_util/lifecycle_node.hpp>
 
@@ -38,131 +32,141 @@
 
 namespace lc = rclcpp_lifecycle;
 
-namespace ldlidar
-{
-class LdLidarComponent : public nav2_util::LifecycleNode
-{
-public:
-  /// \brief Default constructor
-  LDLIDAR_COMPONENTS_EXPORT
-  explicit LdLidarComponent(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+namespace ldlidar {
+    class LdLidarComponent final : public nav2_util::LifecycleNode {
+    public:
+        /// \brief Default constructor
+        LDLIDAR_COMPONENTS_EXPORT
+        explicit LdLidarComponent(const rclcpp::NodeOptions& options = rclcpp::NodeOptions());
 
-  virtual ~LdLidarComponent();
+        ~LdLidarComponent() override;
 
-  /// \brief Callback from transition to "configuring" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_configure(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "configuring" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_configure(const lc::State& prev_state) override;
 
-  /// \brief Callback from transition to "activating" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_activate(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "activating" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_activate(const lc::State& prev_state) override;
 
-  /// \brief Callback from transition to "deactivating" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_deactivate(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "deactivating" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_deactivate(const lc::State& prev_state) override;
 
-  /// \brief Callback from transition to "unconfigured" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_cleanup(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "unconfigured" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_cleanup(const lc::State& prev_state) override;
 
-  /// \brief Callback from transition to "shutdown" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_shutdown(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "shutdown" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_shutdown(const lc::State& prev_state) override;
 
-  /// \brief Callback from transition to "error" state.
-  /// \param[in] state The current state that the node is in.
-  nav2_util::CallbackReturn on_error(const lc::State & prev_state) override;
+        /// \brief Callback from transition to "error" state.
+        /// \param[in] prev_state The current state that the node is in.
+        nav2_util::CallbackReturn on_error(const lc::State& prev_state) override;
 
-  /// \brief Callback for diagnostic updater
-  /// \param[in] stat The current diagnostic status
-  void callback_updateDiagnostic(diagnostic_updater::DiagnosticStatusWrapper & stat);
+        /// \brief Callback for diagnostic updater
+        /// \param[in] stat The current diagnostic status
+        void callback_updateDiagnostic(diagnostic_updater::DiagnosticStatusWrapper& stat);
 
-protected:
-  // ----> Node Parameters
-  template<typename T>
-  void getParam(
-    std::string paramName, T defValue, T & outVal,
-    const std::string & description = "",
-    bool read_only = true,
-    std::string log_info = std::string());
+    protected:
+        // ----> Node Parameters
+        template<typename T>
+        void getParam(
+            std::string paramName, T defValue, T& outVal,
+            const std::string& description = "",
+            bool read_only = true,
+            std::string log_info = std::string());
 
-  void getParam(
-    std::string paramName, int defValue, int & outVal,
-    const nav2_util::LifecycleNode::integer_range & range,
-    const std::string & description = "",
-    bool read_only = true,
-    std::string log_info = std::string());
+        void getParam(
+            std::string paramName, int defValue, int& outVal,
+            const nav2_util::LifecycleNode::integer_range& range,
+            const std::string& description = "",
+            bool read_only = true,
+            std::string log_info = std::string());
 
-  void getParam(
-    std::string paramName, float defValue, float & outVal,
-    const nav2_util::LifecycleNode::floating_point_range & range,
-    const std::string & description = "",
-    bool read_only = true,
-    std::string log_info = std::string());
+        void getParam(
+            std::string paramName, float defValue, float& outVal,
+            const nav2_util::LifecycleNode::floating_point_range& range,
+            const std::string& description = "",
+            bool read_only = true,
+            std::string log_info = std::string());
 
-  void getParameters();
-  void getDebugParams();
-  void getCommParams();
-  void getLidarParams();
-  // <---- Node Parameters
+        void getParameters();
 
-  // ----> Log functions
-  void info(const std::string & msg);
-  void debug(const std::string & msg);
-  void warning(const std::string & msg);
-  void error(const std::string & msg);
-  // <---- Log functions
+        void getDebugParams();
 
-  bool initLidar();
-  bool initLidarComm();
-  void startLidarThread();
-  void stopLidarThread();
-  void lidarThreadFunc();
-  void lidarReadCallback(const char * byte, size_t len);
+        void getCommParams();
 
-  void publishLaserScan();
+        void getLidarParams();
 
-private:
-  // ----> Parameters
-  bool mDebugMode = true;
-  bool mUseDirectSerial = false;  // Set to true if using a direct uart connection
-  std::string mSerialPort;        // Serial port to use when @ref mUseDirectSerial is true
+        // <---- Node Parameters
 
-  UNITS mUnits = UNITS::METERS;
-  ROTATION mRotVerse = ROTATION::CLOCKWISE;
-  std::string mFrameId = "ldlidar_link";
-  // <---- Parameters
+        // ----> Log functions
+        void info(const std::string& msg);
 
-  // Publisher
-  std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::LaserScan>> mScanPub;
+        void debug(const std::string& msg);
 
-  // ----> Topics
-  std::string mTopicRoot = "~/";
-  std::string mScanTopic = "scan";
-  // <---- Topics
+        void warning(const std::string& msg);
 
-  // ----> QoS
-  rclcpp::SensorDataQoS mLidarQos;
-  // <---- QoS
+        void error(const std::string& msg);
 
-  // Diagnostic updater
-  diagnostic_updater::Updater mDiagUpdater;
+        // <---- Log functions
 
-  // Lidar
-  std::unique_ptr<LiPkg> mLidar;
+        bool initLidar();
 
-  // Lidar communication
-  std::unique_ptr<CmdInterfaceLinux> mLidarComm;
+        bool initLidarComm();
 
-  // Lidar Thread
-  std::thread mLidarThread;
-  bool mThreadStop = false;
+        void startLidarThread();
 
-  // Diagnostic
-  double mPubFreq;
-  bool mPublishing;
-};
+        void stopLidarThread();
 
-}  // namespace ldlidar
+        void lidarThreadFunc();
+
+        void lidarReadCallback(const char* byte, size_t len) const;
+
+        void publishLaserScan();
+
+    private:
+        // ----> Parameters
+        bool mDebugMode = true;
+        bool mUseDirectSerial = false; // Set to true if using a direct uart connection
+        std::string mSerialPort; // Serial port to use when @ref mUseDirectSerial is true
+
+        UNITS mUnits = UNITS::METERS;
+        ROTATION mRotVerse = ROTATION::CLOCKWISE;
+        std::string mFrameId = "ldlidar_link";
+        // <---- Parameters
+
+        // Publisher
+        std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::LaserScan>> mScanPub;
+
+        // ----> Topics
+        std::string mTopicRoot = "~/";
+        std::string mScanTopic = "scan";
+        // <---- Topics
+
+        // ----> QoS
+        rclcpp::SensorDataQoS mLidarQos;
+        // <---- QoS
+
+        // Diagnostic updater
+        diagnostic_updater::Updater mDiagUpdater;
+
+        // Lidar
+        std::unique_ptr<LiPkg> mLidar;
+
+        // Lidar communication
+        std::unique_ptr<CmdInterfaceLinux> mLidarComm;
+
+        // Lidar Thread
+        std::thread mLidarThread;
+        bool mThreadStop = false;
+
+        // Diagnostic
+        double mPubFreq{};
+        bool mPublishing{};
+    };
+} // namespace ldlidar
 
 #endif  // LDLIDAR_COMPONENT_HPP_
