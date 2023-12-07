@@ -142,7 +142,7 @@ namespace ldlidar {
         std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::LaserScan>> mScanPub;
 
         // ----> Topics
-        std::string mTopicRoot = "~/";
+        std::string mTopicRoot = "/";
         std::string mScanTopic = "scan";
         // <---- Topics
 
