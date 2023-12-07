@@ -13,30 +13,30 @@
 //  limitations under the License.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cmath>
+#include "tofbf.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
-
-#include "tofbf.hpp"
 
 namespace ldlidar {
     /*!
-        \brief      Select the radar version number and set the current speed
-        \param speed Current radar speed
-        \retval     none
-    */
-    Tofbf::Tofbf(const int speed): offset_x(0), offset_y(0) {
+            \brief      Select the radar version number and set the current speed
+            \param speed Current radar speed
+            \retval     none
+        */
+    Tofbf::Tofbf(const int speed)
+        : offset_x(0), offset_y(0) {
         curr_speed = speed;
     }
 
     Tofbf::~Tofbf() = default;
 
     /*!
-        \brief       Filter within 5m to filter out unreasonable data points
-        \param tmp
-        \retval     Normal data
-    */
+            \brief       Filter within 5m to filter out unreasonable data points
+            \param tmp
+            \retval     Normal data
+        */
     std::vector<PointData> Tofbf::NearFilter(const std::vector<PointData>& tmp) const {
         std::vector<PointData> normal, pending, item;
         std::vector<std::vector<PointData>> group;

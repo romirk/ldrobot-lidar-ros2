@@ -15,13 +15,12 @@
 
 #include "cmd_interface_linux.hpp"
 
-#include <sys/file.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <cerrno>
-#include <termios.h>
 #include <cstring>
+#include <fcntl.h>
 #include <libudev.h>
+#include <termios.h>
+#include <unistd.h>
 
 #include <iostream>
 
@@ -191,7 +190,8 @@ void CmdInterfaceLinux::mRxThreadProc(void* param) {
     const auto rx_buf = new char[MAX_ACK_BUF_LEN + 1];
     while (!cmd_if->mRxThreadExitFlag.load()) {
         uint32_t readed = 0;
-        if (const bool res = cmd_if->ReadFromIO(reinterpret_cast<uint8_t *>(rx_buf), MAX_ACK_BUF_LEN, &readed);
+        if (const bool res =
+                    cmd_if->ReadFromIO(reinterpret_cast<uint8_t *>(rx_buf), MAX_ACK_BUF_LEN, &readed);
             res && readed) {
             cmd_if->mRxCount += readed;
             if (cmd_if->mReadCallback != nullptr) {

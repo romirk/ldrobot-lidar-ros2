@@ -16,12 +16,12 @@
 #ifndef CMD_INTERFACE_LINUX_HPP_
 #define CMD_INTERFACE_LINUX_HPP_
 
-#include <thread>
 #include <atomic>
-#include <vector>
-#include <utility>
 #include <functional>
 #include <string>
+#include <thread>
+#include <utility>
+#include <vector>
 
 class CmdInterfaceLinux {
 public:

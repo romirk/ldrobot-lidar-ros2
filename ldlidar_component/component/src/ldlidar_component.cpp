@@ -16,9 +16,9 @@
 #include "ldlidar_component.hpp"
 #include "ldlidar_tools.hpp"
 #include "diagnostic_msgs/msg/diagnostic_status.hpp"
-#include "rmw/types.h"
-#include "rclcpp/parameter.hpp"
 #include "rclcpp/exceptions.hpp"
+#include "rclcpp/parameter.hpp"
+#include "rmw/types.h"
 
 using namespace std::placeholders;
 

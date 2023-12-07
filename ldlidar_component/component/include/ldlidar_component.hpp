@@ -16,19 +16,19 @@
 #ifndef LDLIDAR_COMPONENT_HPP_
 #define LDLIDAR_COMPONENT_HPP_
 
-#include <string>
 #include <memory>
+#include <string>
 
+#include <diagnostic_updater/diagnostic_updater.hpp>
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
 #include <rclcpp_lifecycle/lifecycle_publisher.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
-#include <diagnostic_updater/diagnostic_updater.hpp>
 
 #include <nav2_util/lifecycle_node.hpp>
 
-#include "visibility_control.hpp"
 #include "cmd_interface_linux.hpp"
 #include "lipkg.hpp"
+#include "visibility_control.hpp"
 
 namespace lc = rclcpp_lifecycle;
 

@@ -103,7 +103,7 @@ Visualization Manager:
       Tree:
         ldlidar_base:
           ldlidar_link:
-            {}
+            { }
       Update Interval: 0
       Value: true
     - Alpha: 1

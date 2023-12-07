@@ -18,11 +18,11 @@
 
 #include <cstdint>
 
-#include <vector>
 #include <array>
-#include <utility>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include <rclcpp/clock.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
@@ -78,9 +78,9 @@ namespace ldlidar {
     };
 
     /**
-      \enum UNITS
-      \brief Lists available unit for measures.
-       */
+          \enum UNITS
+          \brief Lists available unit for measures.
+           */
     enum class UNITS {
         MILLIMETERS,
         /**< International System, 1/1000 m. */
@@ -90,9 +90,9 @@ namespace ldlidar {
     };
 
     /**
-      \enum ROTATION
-      \brief Lists available rotation verses
-       */
+          \enum ROTATION
+          \brief Lists available rotation verses
+           */
     enum class ROTATION {
         CLOCKWISE,
         /**< Right thumb looking down  */
